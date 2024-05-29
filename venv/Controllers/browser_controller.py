@@ -46,7 +46,6 @@ class Browser_Controller:
             return  tags
 
         except NoSuchElementException as e:
-            browser_instance.quit()
             raise HTTPException(
                 status_code=404,
                 detail="no such element"
@@ -54,3 +53,22 @@ class Browser_Controller:
         finally:
             browser_instance.quit()
 
+    async def find_title(self, browser: str, page: str, title: str):
+        browser_instance = selenium_browser(browser)
+        browser_instance.get(page)
+
+        try:
+            element = browser_instance.find_element(By.XPATH, f"//*[contains(text(), '{title}')]")
+            return  Alone(
+                text=element.text,
+                id=element.get_attribute('id'),
+                className=element.get_attribute('class')
+            )
+
+        except NoSuchElementException as e:
+            raise HTTPException(
+                status_code=404,
+                detail="no such element"
+            )
+        finally:
+            browser_instance.quit()

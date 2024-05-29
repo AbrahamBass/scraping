@@ -1,2 +1,5 @@
-.idea
-scraping.iml
+/scraping.iml
+/.idea
+/venv/pyvenv.cfg
+/venv/Scripts
+/venv/Lib
